@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/template/head::head"></head>
+<body>
+
+	<div id="wrapper">
+		<nav th:replace="admin/template/navbar::navbar"></nav>
+		<aside th:replace="admin/template/aside::aside" ></aside>
+		
+		
+		<div id="page-wrapper">
+			<div class="container-fluid">
+				<div class="row p-2">
+				
+			
+					<h4 th:text="${#request.userPrincipal}"></h4>
+				</div>
+
+			</div>
+			<div id="page-wrapper">
+				<footer th:replace="admin/template/footer::footer"></footer>
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>
