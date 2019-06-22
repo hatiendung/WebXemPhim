@@ -4,7 +4,7 @@
 		<div class="sidebar-head">
 			<h3>
 				<span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span>
-				<span class="hide-menu"> <a th:href="@{/admin}">Admin</a>
+				<span class="hide-menu"> <a th:href="@{/admin}" style="color: white; font-weight: bold;">Admin</a>
 				</span>
 			</h3>
 		</div>
@@ -12,8 +12,8 @@
 
 			<li style="padding: 60px 0 0;" id="cl0">
 				<div>
-					<a th:href="@{/user}" class="waves-effect"><i
-						class="fa fa-info-circle fa-fw" aria-hidden="true"></i>TRỞ VỀ WEBSITE</a>
+					<a th:href="@{/admin}" class="waves-effect"><i
+						class="fa fa-info-circle fa-fw" aria-hidden="true"></i>DASHBOARD</a>
 				</div>
 			</li>
 
@@ -67,11 +67,7 @@
 										danh sách slide</a>
 								</div>
 							</li>
-							<li style="padding: 0px 0 0;">
-								<div>
-									<a th:href="@{/}" class="waves-effect">Thêm slide mới</a>
-								</div>
-							</li>
+							
 
 						</ul>
 					</div>
@@ -137,11 +133,19 @@
 						</div>
 					</div>
 			</li>
+			
+			<li>
+				<div>
+					<a th:href="@{/user}" class="waves-effect"><i
+						class="fa fa-info-circle fa-fw" aria-hidden="true"></i>TRỞ VỀ WEBSITE</a>
+				</div>
+			</li>
+			
 
 			<li>
 				<div>
-					<a href="404.html" class="waves-effect"><i
-						class="fa fa-info-circle fa-fw" aria-hidden="true"></i>Error 404</a>
+					<a th:href="@{/logout}" class="waves-effect"><i
+						class="fa fa-info-circle fa-fw" aria-hidden="true"></i>ĐĂNG XUẤT</a>
 				</div>
 			</li>
 

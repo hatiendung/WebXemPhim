@@ -1,5 +1,6 @@
 package com.javawebspringboot.websitemovie.service.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,7 +38,7 @@ public class MoviceServiceImpl implements MovieService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private MovieRepository movieRepository;
 
@@ -46,7 +47,7 @@ public class MoviceServiceImpl implements MovieService {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
-	
+
 	@Autowired
 	private SlideRepository slideRepository;
 
@@ -60,7 +61,7 @@ public class MoviceServiceImpl implements MovieService {
 		MultipartFile avatar = movie.getAvatar();
 		MultipartFile slideImg = movie.getSlideImg();
 		// lay ra max id trong bang movie
-		int maxId = movieRepository.findCountRow();
+		int maxId = movieRepository.findTop1ByOrderByIdMovieDesc().getIdMovie();
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -73,7 +74,7 @@ public class MoviceServiceImpl implements MovieService {
 			categories.add(categoryRepository.findByIdCategory(idCategory));
 		}
 		saveImageAvartarToDisk(avatar, linkMovie);
-		
+
 		movie.setUserPost(userPost);
 		movie.setDatetimePost(LocalDateTime.now());
 		movie.setCategoryList(categories);
@@ -81,10 +82,10 @@ public class MoviceServiceImpl implements MovieService {
 		movie.setCountry(countryRepository.findByIdCountry(countryId));
 
 		movieRepository.save(movie);
-		
-		if(!slideImg.getOriginalFilename().equals("")) {
-			saveSlide(slideImg, linkMovie,movie);
-			
+
+		if (!slideImg.getOriginalFilename().equals("")) {
+			saveSlide(slideImg, linkMovie, movie);
+
 		}
 
 	}
@@ -92,20 +93,20 @@ public class MoviceServiceImpl implements MovieService {
 	private void saveSlide(MultipartFile slideImg, String linkMovie, Movie movie) {
 
 		String linkSlide = saveImageSlideToDish(slideImg, linkMovie);
-		if(!linkSlide.equals("")) {
+		if (!linkSlide.equals("")) {
 			Slide slide = new Slide(linkSlide, movie, 1);
 			slideRepository.save(slide);
 		}
 	}
 
-	private String  saveImageSlideToDish(MultipartFile slideImg, String linkMovie) {
+	private String saveImageSlideToDish(MultipartFile slideImg, String linkMovie) {
 
 		String UPLOAD_FOLDER = System.getProperty("user.dir") + "/src/main/resources/static/images/slide/";
 		try {
 			byte[] bytes = slideImg.getBytes();
 			String linkSlide = "";
-			linkSlide = "slide-" + linkMovie;
-			Path path = Paths.get(UPLOAD_FOLDER + "" + linkSlide);
+			linkSlide = "slide-" + linkMovie ;
+			Path path = Paths.get(UPLOAD_FOLDER + "" + linkSlide +".jpg");
 			Files.write(path, bytes);
 			return linkSlide;
 		} catch (IOException e) {
@@ -156,7 +157,27 @@ public class MoviceServiceImpl implements MovieService {
 
 	@Override
 	public void deleteMovie(int idMovie) {
+		Movie movie = movieRepository.findByIdMovie(idMovie);
+		String linkMovie = movie.getLinkMovie();
+		// delete trong csdl
 		movieRepository.deleteByIdMovie(idMovie);
+
+		// delete anh trong project
+
+		deleteImageMovie(linkMovie);
+
+	}
+
+	private void deleteImageMovie(String linkMovie) {
+		String DELETE_FOLDER = System.getProperty("user.dir") + "/src/main/resources/static/images/movie/";
+		linkMovie += ".jpg";
+		File fileDelete = new File(DELETE_FOLDER + linkMovie);
+		if (fileDelete.delete()) {
+			System.out.println("delete thanh cong");
+		} else {
+			System.out.println("delete ko thanh cong");
+		}
+
 	}
 
 	@Override

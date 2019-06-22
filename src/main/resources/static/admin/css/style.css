@@ -1011,11 +1011,11 @@ label {
 	padding: 5px 14px
 }
 
-.container-fluid {
+/* .container-fluid {
 	padding-left: 25px;
 	padding-right: 25px;
 	padding-bottom: 15px
-}
+} */
 
 .btn-group-vertical
 >
@@ -1116,17 +1116,17 @@ border-radius
 
 #page-wrapper {
 	padding: 0 0 60px;
-	background: #edf1f5
+	background: #edf1f5;
 }
 
 .footer {
 	bottom: 0;
-	color: #58666e;
+	color: #fff;
 	left: 240px;
 	padding: 20px 30px;
 	position: absolute;
 	right: 0;
-	background: #fff
+	background: #3c4451;
 }
 
 .bg-title {
@@ -6988,7 +6988,7 @@ ul.select-row-icon li a.selected i.whn-hov, ul.select-row-icon li a:hover i.whn-
 
 
 #side-menu li a {
-	color: #97999f;
+	color: #ffffff;
 	width: 240px
 }
 

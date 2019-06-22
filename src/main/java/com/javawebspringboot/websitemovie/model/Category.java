@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class Category implements Serializable {
 	@Column(name = "code_category")
 	private String codeCategory;
 
-	@ManyToMany(mappedBy = "categoryList")
+	@ManyToMany(mappedBy = "categoryList",cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<Movie> movieList = new ArrayList<>();
 
 	public Category() {

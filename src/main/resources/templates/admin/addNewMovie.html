@@ -24,9 +24,12 @@
 
 		<div id="page-wrapper">
 			<div class="container-fluid">
-				<div class="row p-2">
+				<div class="row">
 
 					<div class="col col-md-12" style="background-color: white;">
+						<h5
+							style="font-size: 32px; font-weight: 400;">THÊM
+							PHIM MỚI</h5>
 						<form th:action="@{/admin/add-new-film}" method="post"
 							th:object="${movie}" enctype="multipart/form-data">
 							<div class="form-row">
@@ -158,8 +161,8 @@
 
 							</div>
 
-							<button type="submit" class="btn btn-primary">Thêm phim
-								mới</button>
+							<button type="submit" class="btn btn-primary mb-3">Thêm
+								phim mới</button>
 						</form>
 
 					</div>
@@ -218,7 +221,7 @@
 																.readAsDataURL($(this)[0].files[i]);
 													}
 												}
-											} 
+											}
 
 										});
 					});
@@ -266,8 +269,8 @@
 														reader
 																.readAsDataURL($(this)[0].files[i]);
 													}
-												} 
-											} 
+												}
+											}
 
 										});
 					});

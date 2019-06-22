@@ -44,4 +44,10 @@ public class SlideServiceImpl implements SlideService {
 		return slideRepository.findByStatus(1);
 	}
 
+	@Override
+	public void deleteSlideByIdSlide(Integer idSlide) {
+		slideRepository.deleteByIdSlide(idSlide);
+
+	}
+
 }

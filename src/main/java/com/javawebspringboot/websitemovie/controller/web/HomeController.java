@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,10 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.javawebspringboot.websitemovie.model.Actor;
 import com.javawebspringboot.websitemovie.model.Category;
 import com.javawebspringboot.websitemovie.model.Country;
+import com.javawebspringboot.websitemovie.model.EpisodeSeries;
 import com.javawebspringboot.websitemovie.model.Movie;
 import com.javawebspringboot.websitemovie.service.ActorService;
 import com.javawebspringboot.websitemovie.service.CategoryService;
 import com.javawebspringboot.websitemovie.service.CountryService;
+import com.javawebspringboot.websitemovie.service.EpisodeSeriesService;
 import com.javawebspringboot.websitemovie.service.MovieService;
 import com.javawebspringboot.websitemovie.service.SlideService;
 
@@ -31,6 +35,7 @@ public class HomeController {
 
 	@Autowired
 	private MovieService movieService;
+
 	@Autowired
 	private ActorService actorService;
 
@@ -42,6 +47,9 @@ public class HomeController {
 
 	@Autowired
 	private SlideService slideService;
+
+	@Autowired
+	private EpisodeSeriesService episodeSeriesService;
 
 	@RequestMapping(value = { "/", "/user" })
 	public String showHomePage(Model model) {
@@ -112,13 +120,16 @@ public class HomeController {
 		return "web/movieDescription";
 	}
 
-	@RequestMapping("/xem-phim/{linkMovie}")
-	public String playMovie(Model model, @PathVariable(name = "linkMovie") String linkMovie) {
+	@RequestMapping("/xem-phim/{linkEpisode}")
+	public String playMovie(Model model, @PathVariable(name = "linkEpisode") String linkEpisode) {
+
+		EpisodeSeries episode = episodeSeriesService.findByLinkEpisode(linkEpisode);
 
 		// xem 1 bo phim
-		Movie movie = movieService.findByLinkMovie(linkMovie);
+		Movie movie = episode.getMovie();
 		model.addAttribute("title", "Phim " + movie.getNameMovie());
 		model.addAttribute("movie", movie);
+		model.addAttribute("episode", episode);
 
 		// tao menu
 		model.addAttribute("categoryList", categoryService.findAllCategory());
@@ -160,6 +171,13 @@ public class HomeController {
 		model.addAttribute("listMovieSC", movieService.findTop10MovieComingSoon());
 
 		return "web/movieActor";
+	}
+
+	@RequestMapping("/user/download-movie/{linkEpisode}")
+	public void downloadMovie(@PathVariable(name = "linkEpisode") String linkEpisode, HttpServletResponse response)
+			throws Exception {
+		episodeSeriesService.downloadMovie(linkEpisode, response);
+
 	}
 
 }

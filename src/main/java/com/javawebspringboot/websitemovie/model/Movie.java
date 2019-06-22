@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -72,13 +75,19 @@ public class Movie implements Serializable {
 	@JoinColumn(name = "id_user_post")
 	private User userPost;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	@JoinTable(name = "movie_category", joinColumns = @JoinColumn(name = "id_movie", referencedColumnName = "id_movie"), inverseJoinColumns = @JoinColumn(name = "id_category", referencedColumnName = "id_category"))
 	private List<Category> categoryList;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	@JoinTable(name = "movie_actor", joinColumns = @JoinColumn(name = "id_movie", referencedColumnName = "id_movie"), inverseJoinColumns = @JoinColumn(name = "id_actor", referencedColumnName = "id_actor"))
 	private List<Actor> actorList;
+
+	@OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<EpisodeSeries> episodeSeriesList;
+
+	@OneToOne(mappedBy = "movie", cascade = CascadeType.ALL)
+	private Slide slide;
 
 	@Transient
 	private MultipartFile avatar;
@@ -93,7 +102,7 @@ public class Movie implements Serializable {
 	public Movie(String nameMovie, String nameEnglish, Integer status, String content, String linkMovie,
 			int numberEpisodeMovie, LocalDateTime datetimePost, String language, Integer view, int yearProduce,
 			Director director, Country country, User userPost, List<Category> categoryList, List<Actor> actorList,
-			MultipartFile avatar, MultipartFile slideImg) {
+			List<EpisodeSeries> episodeSeriesList, Slide slide, MultipartFile avatar, MultipartFile slideImg) {
 		super();
 		this.nameMovie = nameMovie;
 		this.nameEnglish = nameEnglish;
@@ -110,8 +119,26 @@ public class Movie implements Serializable {
 		this.userPost = userPost;
 		this.categoryList = categoryList;
 		this.actorList = actorList;
+		this.episodeSeriesList = episodeSeriesList;
+		this.slide = slide;
 		this.avatar = avatar;
 		this.slideImg = slideImg;
+	}
+
+	public List<EpisodeSeries> getEpisodeSeriesList() {
+		return episodeSeriesList;
+	}
+
+	public void setEpisodeSeriesList(List<EpisodeSeries> episodeSeriesList) {
+		this.episodeSeriesList = episodeSeriesList;
+	}
+
+	public Slide getSlide() {
+		return slide;
+	}
+
+	public void setSlide(Slide slide) {
+		this.slide = slide;
 	}
 
 	public User getUserPost() {

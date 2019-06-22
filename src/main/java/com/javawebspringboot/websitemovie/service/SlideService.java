@@ -12,4 +12,6 @@ public interface SlideService {
 
 	List<Slide> findAllSlideByStatus1();
 
+	void deleteSlideByIdSlide(Integer idSlide);
+
 }

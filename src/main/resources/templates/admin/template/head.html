@@ -1,4 +1,4 @@
-<head th:fragment="head">
+<head xmlns:th="http://www.thymeleaf.org" th:fragment="head">
 <title>Admin page</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -9,8 +9,7 @@
 <link th:href="@{/admin/css/animate.css}" rel="stylesheet">
 <link th:href="@{/admin/css/spinners.css}" rel="stylesheet">
 <link th:href="@{/admin/css/style.css}" rel="stylesheet">
-<link th:href="@{/admin/css/colors_default.css}" id="theme"
-	rel="stylesheet">
+
 
 <style>
 .legend-theloaiphim {
@@ -18,13 +17,16 @@
 	padding: 0 5px;
 }
 
-.field_theloaiphim{
-    border: 1px solid #C5BEBD !important;
+.field_theloaiphim {
+	border: 1px solid #C5BEBD !important;
 }
 
-.them_phim .form-group{
+.them_phim .form-group {
 	margin-bottom: 0px;
-	
 }
+<link th:href="@{/admin/css/colors_default.css}" id="theme"
+	rel="stylesheet">
+	
+
 </style>
 </head>

@@ -16,4 +16,6 @@ public interface SlideRepository extends JpaRepository<Slide, Integer> {
 	
 	Slide findByIdSlide(Integer idSlide);
 
+	
+	void deleteByIdSlide(Integer idSlide);
 }

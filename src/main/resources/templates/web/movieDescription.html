@@ -14,15 +14,30 @@
 							style="border: none; background-color: black; width: 324.26px; cursor: pointer;"
 							th:title="${movie.nameMovie}">
 							<div class="card-body">
-								<a th:href="@{/xem-phim/}+${movie.linkMovie}"> <img
+								<a th:if="${#lists.size(movie.episodeSeriesList) == 0}"
+									class="disabled">
+									 <img
 									width="324.26px"
+									th:src="@{/images/movie/}+${movie.linkMovie}+.jpg"
+									th:alt="${movie.nameMovie}">
+								</a>
+								 <a th:if="${#lists.size(movie.episodeSeriesList) > 0}"
+									th:href="@{/xem-phim/}+${movie.episodeSeriesList[0].linkEpisode}">
+									<img width="324.26px"
 									th:src="@{/images/movie/}+${movie.linkMovie}+.jpg"
 									th:alt="${movie.nameMovie}">
 								</a>
 							</div>
 							<div class="d-flex justify-content-around card-footer text-white">
-								<a href="#" class="btn btn-secondary">Xem trailer</a> <a
-									th:href="@{/xem-phim/}+${movie.linkMovie}"
+								<a href="#" class="btn btn-secondary">Xem trailer</a>
+								
+									 <a
+									th:if="${#lists.size(movie.episodeSeriesList) == 0}"
+									class="btn btn-success null_movie" >Xem
+									phim</a> 
+									
+									<a th:if="${#lists.size(movie.episodeSeriesList) > 0}"
+									th:href="@{/xem-phim/}+${movie.episodeSeriesList[0].linkEpisode}"
 									class="btn btn-success">Xem phim</a>
 							</div>
 						</div>
@@ -35,56 +50,72 @@
 
 						<div class="card border-0 border-white">
 							<div class="card-body trang_thai">
-								<p>Trạng thái: 
-									<span>Full 55/55 Vietsub</span>
+								<p>
+									Trạng thái: <span>Full 55/55 Vietsub</span>
 								</p>
-								<p>Lượt xem: 
-									<span th:text=" ${movie.view}"></span>
+								<p>
+									Lượt xem: <span th:text=" ${movie.view}"></span>
 								</p>
-								<p>Đạo diễn:
-									<span>Trịnh Vĩ Văn</span>
+								<p>
+									Đạo diễn: <span>Trịnh Vĩ Văn</span>
 								</p>
-								<p>Thời lượng:
-									<span>45 phút / tập</span>
+								<p>
+									Thời lượng: <span>45 phút / tập</span>
 								</p>
-								<p >Số tập:
-									<span th:text="${movie.numberEpisodeMovie}"></span>
+								<p>
+									Số tập: <span th:text="${movie.numberEpisodeMovie}"></span>
 								</p>
-								<p >Tình trạng:
-									<span th:if=" ${movie.status ==0}">Sắp chiếu</span>
-									<span th:if=" ${movie.status ==1}">Đang chiếu</span>
-									<span th:if=" ${movie.status ==2}">Hoàn thành</span>
+								<p>
+									Tình trạng: <span th:if=" ${movie.status ==0}">Sắp chiếu</span>
+									<span th:if=" ${movie.status ==1}">Đang chiếu</span> <span
+										th:if=" ${movie.status ==2}">Hoàn thành</span>
 								</p>
-								<p>Ngôn ngữ:
-									<span>Phụ đề Việt + Lồng tiếng</span>
+								<p>
+									Ngôn ngữ: <span>Phụ đề Việt + Lồng tiếng</span>
 								</p>
-								<p>Năm sản xuất:
-									<span th:text="${movie.yearProduce}"></span>
+								<p>
+									Năm sản xuất: <span th:text="${movie.yearProduce}"></span>
 								</p>
-								<p class="quoc-gia">Quốc gia sản xuất:
-									<a th:href="@{/quoc-gia/} + ${movie.country.codeCountry}" th:text=" ' ' + ${movie.country.nameCountry} ">
-										
-									</a>
+								<p class="quoc-gia">
+									Quốc gia sản xuất: <a
+										th:href="@{/quoc-gia/} + ${movie.country.codeCountry}"
+										th:text=" ' ' + ${movie.country.nameCountry} "> </a>
 								</p>
 								<p class="the-loai">
-								Thể loại:
-									<span th:each="category, itrStat : ${movie.categoryList}">
-								 		<a th:href="@{/the-loai/} + ${category.codeCategory}" th:if="${itrStat.index} <= ${#lists.size(movie.categoryList) - 1} " th:text="${category.nameCategory}">the loai</a>
-								 		<span  th:if="${itrStat.index} < ${#lists.size(movie.categoryList)-1} " th:text="', '">the loai</span>
+									Thể loại: <span
+										th:each="category, itrStat : ${movie.categoryList}"> <a
+										th:href="@{/the-loai/} + ${category.codeCategory}"
+										th:if="${itrStat.index} <= ${#lists.size(movie.categoryList) - 1} "
+										th:text="${category.nameCategory}">the loai</a> <span
+										th:if="${itrStat.index} < ${#lists.size(movie.categoryList)-1} "
+										th:text="', '">the loai</span>
 									</span>
-									
+
 								</p>
-								<p class="dien-vien">Diễn viên:
-								 	<span  th:each="actor, itrStat : ${movie.actorList} ">
-								 		<a th:href="@{/dien-vien/} + ${actor.codeActor}" th:if="${itrStat.index} <= ${#lists.size(movie.actorList) - 1} " th:text="${actor.nameActor}">dien vien</a>
-								 		<span  th:if="${itrStat.index} < ${#lists.size(movie.actorList)-1} " th:text="', '">dien vien</span>
-								 	</span>
+								<p class="dien-vien">
+									Diễn viên: <span th:each="actor, itrStat : ${movie.actorList} ">
+										<a th:href="@{/dien-vien/} + ${actor.codeActor}"
+										th:if="${itrStat.index} <= ${#lists.size(movie.actorList) - 1} "
+										th:text="${actor.nameActor}">dien vien</a> <span
+										th:if="${itrStat.index} < ${#lists.size(movie.actorList)-1} "
+										th:text="', '">dien vien</span>
+									</span>
 								</p>
 							</div>
 						</div>
 
 					</div>
 				</div>
+
+				<div class="row" id="row_kq">
+					<div class="col col-md-12">
+
+						<div class="card border-0 border-white tom_tat_phim">
+							<div id="kq"></div>
+						</div>
+					</div>
+				</div>
+
 				<div class="row my-3">
 					<div class="col col-md-12">
 
@@ -104,4 +135,19 @@
 	</div>
 	<footer th:replace="web/template/footer::footer"></footer>
 </body>
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	  $(".null_movie").click(function(){
+		$("#row_kq").addClass("my-3");
+	    $("#kq").append("<h5>THÔNG BÁO</h5><p>Hiện tại phim chưa có tập nào. Chúng tôi sẽ cập nhật nhanh nhất khi phim ra tập mới</p>");
+	    $(".null_movie").addClass("disabled");
+
+	  });
+	 
+	});
+
+</script>
 </html>
