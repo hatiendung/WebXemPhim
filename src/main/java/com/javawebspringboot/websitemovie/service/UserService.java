@@ -10,4 +10,6 @@ public interface UserService {
 
 	List<User> findAllUser();
 
+	boolean registerAccount(String email, String password);
+
 }

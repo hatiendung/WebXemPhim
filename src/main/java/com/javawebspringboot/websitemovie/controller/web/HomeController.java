@@ -32,6 +32,7 @@ import com.javawebspringboot.websitemovie.service.EpisodeService;
 import com.javawebspringboot.websitemovie.service.MovieService;
 import com.javawebspringboot.websitemovie.service.SlideService;
 import com.javawebspringboot.websitemovie.service.TrailerService;
+import com.javawebspringboot.websitemovie.service.UserService;
 
 @Controller
 public class HomeController {
@@ -52,6 +53,9 @@ public class HomeController {
 	private SlideService slideService;
 
 	@Autowired
+	private UserService userService;
+
+	@Autowired
 	private EpisodeService episodeService;
 
 	@Autowired
@@ -59,6 +63,7 @@ public class HomeController {
 
 	@RequestMapping(value = { "/", "/user" })
 	public String showHomePage(Model model) {
+		
 
 		model.addAttribute("title",
 				"Phim Hay | Phim HD Vietsub | Xem Phim Online | Xem Phim Nhanh | Mọt Phim - Motphim");
@@ -213,7 +218,6 @@ public class HomeController {
 		System.out.println("linkTrailer " + linkTrailer);
 		episodeService.downloadTrailer(linkTrailer, response);
 
-		
 	}
 
 	@RequestMapping("/tim-kiem-phim/")
@@ -229,6 +233,20 @@ public class HomeController {
 		model.addAttribute("listMovieSC", movieService.findTop10MovieComingSoon());
 		// menu
 		return "web/searchMovie";
+	}
+
+	@RequestMapping("/dang-ky-tai-khoan")
+	public String registerAccount(@RequestParam(name = "emailRegister") String emailRegister,
+			@RequestParam(name = "passwordRegister") String passwordRegister) {
+		System.out.println("emailRegister " + emailRegister + " passwordRegister " + passwordRegister);
+		boolean check = userService.registerAccount(emailRegister, passwordRegister);
+		if (check == true) {
+			return "redirect:/user";
+
+		} else {
+
+			return "redirect:/";
+		}
 	}
 
 }
