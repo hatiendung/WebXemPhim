@@ -5,7 +5,7 @@
 
 <body>
 	<nav th:replace="web/template/menu::menu"></nav>
-	
+
 	<header>
 		<div id="carouselExampleIndicators" class="carousel slide"
 			data-ride="carousel">
@@ -49,14 +49,25 @@
 					<div th:each="movie : ${movieList}" class="col-lg-3 mb-4">
 						<div class="card" style="cursor: pointer;"
 							th:title="${movie.nameMovie}">
-							<div class="card-body">
+							<div class="card-body img_movie">
+								<div class="text_block">
+									<p class="mx-1 my-2" th:if="${#lists.size(movie.episodeSeriesList) == 0}"
+										th:text="'Tập 0/' + ${movie.numberEpisodeMovie}">Tập 22
+										Vietsub</p>
+									<p class="mx-1 my-2" th:if="${#lists.size(movie.episodeSeriesList) > 0}"
+										th:text="'Tập ' + ${#lists.size(movie.episodeSeriesList)} + '/' + ${movie.numberEpisodeMovie}">Tập 22
+										Vietsub</p>
+
+								</div>
 								<a th:href="@{/phim/}+${movie.linkMovie}"> <img
 									width="200px" height="284px"
 									th:src="@{/images/movie/}+${movie.LinkMovie}+.jpg"
 									th:alt="${movie.nameMovie}">
 								</a>
-								<div class="card-footer text-white text-center">
-									<a style="text-decoration: none; margin-top: 10px;"
+
+								<div class="card-footer text-center">
+									<a
+										style="text-decoration: none; margin-top: 10px; font-weight: 600; color: #f06402;"
 										th:href="@{/phim/}+${movie.linkMovie}"> <span
 										th:text="${movie.nameMovie}"></span>
 									</a>
@@ -66,22 +77,26 @@
 						</div>
 					</div>
 				</div>
-				
-				
-				
-				
+
+
+
+
 				<h4 class="mb-3">PHIM ĐƯỢC XEM NHIỀU NHẤT</h4>
 				<div class="row">
-					<div th:each="movie : ${movieListOrderByView}" class="col-lg-3 mb-4">
+					<div th:each="movie : ${movieListOrderByView}"
+						class="col-lg-3 mb-4">
 						<div class="card" style="cursor: pointer;"
 							th:title="${movie.nameMovie}">
-							<div class="card-body">
+							<div class="card-body img_movie">
+								<div class="text_block">
+									<p class="mx-1 my-2">Tập 22 Vietsub</p>
+								</div>
 								<a th:href="@{/phim/}+${movie.linkMovie}"> <img
 									width="200px" height="284px"
 									th:src="@{/images/movie/}+${movie.LinkMovie}+.jpg"
 									th:alt="${movie.nameMovie}">
 								</a>
-								<div class="card-footer text-white text-center">
+								<div class="card-footer text-center">
 									<a style="text-decoration: none; margin-top: 10px;"
 										th:href="@{/phim/}+${movie.linkMovie}"> <span
 										th:text="${movie.nameMovie}"></span>
@@ -99,7 +114,7 @@
 		</div>
 	</div>
 	<footer th:replace="web/template/footer::footer"></footer>
-	
+
 </body>
 
 </html>

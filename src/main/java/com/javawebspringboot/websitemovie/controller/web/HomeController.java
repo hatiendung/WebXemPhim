@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javawebspringboot.websitemovie.model.Actor;
 import com.javawebspringboot.websitemovie.model.Category;
@@ -63,7 +62,6 @@ public class HomeController {
 
 	@RequestMapping(value = { "/", "/user" })
 	public String showHomePage(Model model) {
-		
 
 		model.addAttribute("title",
 				"Phim Hay | Phim HD Vietsub | Xem Phim Online | Xem Phim Nhanh | Mọt Phim - Motphim");
@@ -213,9 +211,7 @@ public class HomeController {
 	}
 
 	@RequestMapping("/user/download-trailer/{linkTrailer}")
-	@ResponseBody
 	public void downloadTrailer(@PathVariable(name = "linkTrailer") String linkTrailer, HttpServletResponse response) {
-		System.out.println("linkTrailer " + linkTrailer);
 		episodeService.downloadTrailer(linkTrailer, response);
 
 	}
@@ -247,6 +243,23 @@ public class HomeController {
 
 			return "redirect:/";
 		}
+	}
+
+	@RequestMapping("/phim-moi/{year}")
+	public String getMovieByYear(Model model, @PathVariable(name = "year") Integer year) {
+		model.addAttribute("year", year);
+
+		for (Movie movie : movieService.findByYearProduce(year)) {
+			System.out.println("movie " + movie.getNameMovie());
+		}
+
+		model.addAttribute("movieList", movieService.findByYearProduce(year));
+		// menu
+		model.addAttribute("categoryList", categoryService.findAllCategory());
+		model.addAttribute("countryList", countryService.findAllCountry());
+		model.addAttribute("listMovieSC", movieService.findTop10MovieComingSoon());
+		// menu
+		return "web/movieByYear";
 	}
 
 }

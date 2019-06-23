@@ -65,7 +65,7 @@ h4 {
 
 .nav-link {
 	color: white;
-	font-weight: bold;
+	/* font-weight: bold; */
 }
 
 .menu, footer {
@@ -83,15 +83,18 @@ footer h5 {
 	padding: 0px;
 }
 
-a, a:hover {
-	color: white;
-	text-decoration: none;
-}
+
 
 .content_home a:hover {
-	color: #ff9601;
+	color: #f06402;
 }
 
+a, a:hover {
+	color: #f06402;
+	font-weight:600;
+	text-decoration: none;
+	font-size: 18px;
+}
 .trang_thai p a:hover {
 	color: #ff9601;
 }
@@ -135,12 +138,25 @@ a, a:hover {
 }
 
 
+.menu .dropdown-menu{
+	background-color: black;
+	color:white;
+	padding: 0rem;
+	font-weight: bold;
+	border-radius: 0px;
+}
+
+.menu .dropdown-menu .dropdown-item{
+	font-weight:400;
+	color: white;
+}
 
 
-
-
-
-
+.menu .dropdown-menu .dropdown-item:hover{
+	font-weight:400;
+	color: #ff9601;
+	background-color: black;
+}
 
 
 

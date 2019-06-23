@@ -40,6 +40,8 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 	List<Movie> searchMovie(String keyWord);
 
 	long count();
+
+	List<Movie> findByYearProduce(Integer year);
 	
 	
 }

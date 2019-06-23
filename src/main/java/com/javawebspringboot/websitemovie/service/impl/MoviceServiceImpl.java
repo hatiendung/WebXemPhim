@@ -225,4 +225,9 @@ public class MoviceServiceImpl implements MovieService {
 		}
 	}
 
+	@Override
+	public List<Movie> findByYearProduce(Integer year) {
+		return movieRepository.findByYearProduce(year);
+	}
+
 }

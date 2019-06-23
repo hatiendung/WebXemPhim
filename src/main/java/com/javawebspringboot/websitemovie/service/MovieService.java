@@ -36,4 +36,6 @@ public interface MovieService {
 
 	void sortEpisode(Movie movie);
 
+	List<Movie> findByYearProduce(Integer year);
+
 }
