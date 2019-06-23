@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.javawebspringboot.websitemovie.model.Category;
 import com.javawebspringboot.websitemovie.model.Country;
+import com.javawebspringboot.websitemovie.model.Episode;
 import com.javawebspringboot.websitemovie.model.Movie;
 import com.javawebspringboot.websitemovie.model.Slide;
 import com.javawebspringboot.websitemovie.model.User;
@@ -61,12 +62,12 @@ public class MoviceServiceImpl implements MovieService {
 		MultipartFile avatar = movie.getAvatar();
 		MultipartFile slideImg = movie.getSlideImg();
 		// lay ra max id trong bang movie
-		int maxId = movieRepository.findTop1ByOrderByIdMovieDesc().getIdMovie();
+		long rowCount = movieRepository.count();
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		User userPost = userRepository.findByEmail(userDetails.getUsername());
-		String linkMovie = createLinkMovie(maxId, movie.getNameMovie());
+		String linkMovie = createLinkMovie(rowCount, movie.getNameMovie());
 		movie.setLinkMovie(linkMovie);
 
 		List<Category> categories = new ArrayList<Category>();
@@ -105,8 +106,8 @@ public class MoviceServiceImpl implements MovieService {
 		try {
 			byte[] bytes = slideImg.getBytes();
 			String linkSlide = "";
-			linkSlide = "slide-" + linkMovie ;
-			Path path = Paths.get(UPLOAD_FOLDER + "" + linkSlide +".jpg");
+			linkSlide = "slide-" + linkMovie;
+			Path path = Paths.get(UPLOAD_FOLDER + "" + linkSlide + ".jpg");
 			Files.write(path, bytes);
 			return linkSlide;
 		} catch (IOException e) {
@@ -125,7 +126,7 @@ public class MoviceServiceImpl implements MovieService {
 		}
 	}
 
-	private String createLinkMovie(int maxId, String nameMovie) {
+	private String createLinkMovie(long maxId, String nameMovie) {
 		String temp = Normalizer.normalize(nameMovie, Normalizer.Form.NFD);
 		Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
 		String linkMovie = pattern.matcher(temp).replaceAll("").toLowerCase();
@@ -196,6 +197,32 @@ public class MoviceServiceImpl implements MovieService {
 	@Override
 	public List<Movie> findTop12ByOrderByViewDesc() {
 		return movieRepository.findTop12ByOrderByViewDesc();
+	}
+
+	@Override
+	public List<Movie> searchMovie(String keyWord) {
+
+		return movieRepository.searchMovie(keyWord);
+	}
+
+	@Override
+	public long countMovie() {
+		return movieRepository.count();
+	}
+
+	@Override
+	public void sortEpisode(Movie movie) {
+		for (int i = 0; i < movie.getEpisodeSeriesList().size(); i++) {
+			for (int j = i + 1; j < movie.getEpisodeSeriesList().size(); j++) {
+				if (movie.getEpisodeSeriesList().get(i).getOrdinalNumbers() > movie.getEpisodeSeriesList().get(j)
+						.getOrdinalNumbers()) {
+					Episode temp = new Episode();
+					temp = movie.getEpisodeSeriesList().get(i);
+					movie.getEpisodeSeriesList().set(i, movie.getEpisodeSeriesList().get(j));
+					movie.getEpisodeSeriesList().set(j, temp);
+				}
+			}
+		}
 	}
 
 }

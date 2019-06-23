@@ -17,18 +17,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javawebspringboot.websitemovie.model.Actor;
 import com.javawebspringboot.websitemovie.model.Category;
 import com.javawebspringboot.websitemovie.model.Country;
-import com.javawebspringboot.websitemovie.model.EpisodeSeries;
+import com.javawebspringboot.websitemovie.model.Episode;
 import com.javawebspringboot.websitemovie.model.Movie;
+import com.javawebspringboot.websitemovie.model.Trailer;
 import com.javawebspringboot.websitemovie.service.ActorService;
 import com.javawebspringboot.websitemovie.service.CategoryService;
 import com.javawebspringboot.websitemovie.service.CountryService;
-import com.javawebspringboot.websitemovie.service.EpisodeSeriesService;
+import com.javawebspringboot.websitemovie.service.EpisodeService;
 import com.javawebspringboot.websitemovie.service.MovieService;
 import com.javawebspringboot.websitemovie.service.SlideService;
+import com.javawebspringboot.websitemovie.service.TrailerService;
 
 @Controller
 public class HomeController {
@@ -49,15 +52,20 @@ public class HomeController {
 	private SlideService slideService;
 
 	@Autowired
-	private EpisodeSeriesService episodeSeriesService;
+	private EpisodeService episodeService;
+
+	@Autowired
+	private TrailerService trailerService;
 
 	@RequestMapping(value = { "/", "/user" })
 	public String showHomePage(Model model) {
 
 		model.addAttribute("title",
 				"Phim Hay | Phim HD Vietsub | Xem Phim Online | Xem Phim Nhanh | Mọt Phim - Motphim");
+
 		model.addAttribute("categoryList", categoryService.findAllCategory());
 		model.addAttribute("countryList", countryService.findAllCountry());
+
 		model.addAttribute("listMovieSC", movieService.findTop10MovieComingSoon());
 		model.addAttribute("slides", slideService.findAllSlideByStatus1());
 		model.addAttribute("movie", new Movie());
@@ -123,10 +131,11 @@ public class HomeController {
 	@RequestMapping("/xem-phim/{linkEpisode}")
 	public String playMovie(Model model, @PathVariable(name = "linkEpisode") String linkEpisode) {
 
-		EpisodeSeries episode = episodeSeriesService.findByLinkEpisode(linkEpisode);
+		Episode episode = episodeService.findByLinkEpisode(linkEpisode);
 
 		// xem 1 bo phim
 		Movie movie = episode.getMovie();
+		movieService.sortEpisode(movie);
 		model.addAttribute("title", "Phim " + movie.getNameMovie());
 		model.addAttribute("movie", movie);
 		model.addAttribute("episode", episode);
@@ -136,6 +145,25 @@ public class HomeController {
 		model.addAttribute("countryList", countryService.findAllCountry());
 
 		return "web/playMovie";
+	}
+
+	@RequestMapping("/xem-trailer/{linkTrailer}")
+	public String playTrailer(Model model, @PathVariable(name = "linkTrailer") String linkTrailer) {
+
+		Trailer trailer = trailerService.findByLinkTrailer(linkTrailer);
+
+		// xem 1 bo phim
+		Movie movie = trailer.getMovie();
+		movieService.sortEpisode(movie);
+		model.addAttribute("title", "Phim " + movie.getNameMovie());
+		model.addAttribute("movie", movie);
+		model.addAttribute("trailer", trailer);
+
+		// tao menu
+		model.addAttribute("categoryList", categoryService.findAllCategory());
+		model.addAttribute("countryList", countryService.findAllCountry());
+
+		return "web/playTrailer";
 	}
 
 	@RequestMapping("/the-loai/{codeCategory}")
@@ -169,15 +197,38 @@ public class HomeController {
 		model.addAttribute("categoryList", categoryService.findAllCategory());
 		model.addAttribute("countryList", countryService.findAllCountry());
 		model.addAttribute("listMovieSC", movieService.findTop10MovieComingSoon());
-
+		// menu
 		return "web/movieActor";
 	}
 
 	@RequestMapping("/user/download-movie/{linkEpisode}")
-	public void downloadMovie(@PathVariable(name = "linkEpisode") String linkEpisode, HttpServletResponse response)
-			throws Exception {
-		episodeSeriesService.downloadMovie(linkEpisode, response);
+	public void downloadMovie(@PathVariable(name = "linkEpisode") String linkEpisode, HttpServletResponse response) {
+		episodeService.downloadMovie(linkEpisode, response);
 
+	}
+
+	@RequestMapping("/user/download-trailer/{linkTrailer}")
+	@ResponseBody
+	public void downloadTrailer(@PathVariable(name = "linkTrailer") String linkTrailer, HttpServletResponse response) {
+		System.out.println("linkTrailer " + linkTrailer);
+		episodeService.downloadTrailer(linkTrailer, response);
+
+		
+	}
+
+	@RequestMapping("/tim-kiem-phim/")
+	public String search(Model model, @RequestParam(name = "keyWord") String keyWord) {
+		List<Movie> movieList = movieService.searchMovie(keyWord);
+
+		model.addAttribute("movieList", movieList);
+		model.addAttribute("keyWord", keyWord);
+
+		// menu
+		model.addAttribute("categoryList", categoryService.findAllCategory());
+		model.addAttribute("countryList", countryService.findAllCountry());
+		model.addAttribute("listMovieSC", movieService.findTop10MovieComingSoon());
+		// menu
+		return "web/searchMovie";
 	}
 
 }

@@ -43,7 +43,7 @@
                                     <td style="vertical-align: middle;" th:if="${movie.status == 1}">Phim đang chiếu</td>
                                     <td style="vertical-align: middle;" th:if="${movie.status == 2}">Phim đã hoàn thành</td>
                                     <td style="vertical-align: middle;" th:text="${#temporals.format(movie.datetimePost, 'dd-MM-yyyy HH:mm:ss')}"></td>
-                                    <td style="vertical-align: middle;"><a type="button" class="btn btn-primary" th:href="@{/admin/update/}+${movie.idMovie}">Cập nhật</a></td>
+                                    <td style="vertical-align: middle;"><a type="button" class="btn btn-primary" th:href="@{/admin/update/}+${movie.linkMovie}">Cập nhật</a></td>
                                     <td style="vertical-align: middle;"><a type="button" class="btn btn-danger" th:href="@{/admin/delete/}+${movie.idMovie}">Xóa phim</a></td>
 
                                 </tr>

@@ -8,15 +8,15 @@
 	<div class="container">
 		<div class="row content_home">
 			<div class="col col-md-9">
-				<h4 class="my-3" th:text="${txtCategory}">PHIM MỚI CẬP NHẬT</h4>
+				<h4 class="my-3" th:text="'KẾT QUẢ TÌM KIẾM CHO TỪ KHÓA ' +${keyWord} ">SEARCH PHIM</h4>
 				<div class="row">
-					<div th:each="movie : ${kqtimkiem}" class="col-lg-3 mb-4">
+					<div th:each="movie : ${movieList}" class="col-lg-3 mb-4">
 						<div class="card" style="cursor: pointer;"
 							th:title="${movie.nameMovie}">
 							<div class="card-body">
 								<a th:href="@{/phim/}+${movie.linkMovie}"> <img
 									width="200px" height="284px"
-									th:src="@{/images/movie/}+${movie.linkMovie}+.jpg"
+									th:src="@{/images/movie/}+${movie.LinkMovie}+.jpg"
 									th:alt="${movie.nameMovie}">
 								</a>
 								<div class="card-footer text-white text-center">
@@ -30,7 +30,23 @@
 						</div>
 					</div>
 				</div>
+				<!-- <div class="d-flex justify-content-center">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+							<li th:if="${totalPages > 0}"
+								th:each="pageNumber : ${pageNumbers}"
+								th:classappend="${#httpServletRequest.getParameter('page')} == ${pageNumber} ? 'page-item active' : 'page-item'">
+								<a class="page-link "
+								th:href="@{/quoc-gia/{codeCountry}(codeCountry= ${codeCountry} ,page= ${pageNumber})}"
+								th:text=${pageNumber}>1 </a>
+							</li>
+
+
+						</ul>
+					</nav>
+				</div> -->
 			</div>
+
 			<div class="col col-md-3">
 				<div th:replace="web/template/sidebar::sidebar"></div>
 			</div>

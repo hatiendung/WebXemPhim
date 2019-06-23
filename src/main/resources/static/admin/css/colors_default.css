@@ -25,7 +25,7 @@ body {
 }
 
 .top-left-part {
-	background: #fff;
+	background: #2f323e;
 }
 
 .top-left-part .dark-logo {
@@ -49,7 +49,7 @@ body {
 }
 
 .sidebar .sidebar-head {
-	background: #ffffff;
+	background: #2f323e;
 }
 
 .sidebar .sidebar-head h3 {
@@ -65,7 +65,7 @@ body {
 }
 /*Sidebar*/
 .sidebar {
-	background: #fff;
+	background: #2f323e;
 	box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
 }
 
@@ -78,7 +78,7 @@ body {
 }
 
 #side-menu li a {
-	color: #54667a;
+	color: #ffffff;
 	border-left: 0px solid #fff;
 }
 
@@ -180,16 +180,36 @@ body {
 	color: #0791e6;
 }
 
+.home_page {
+	font-size: 18px;
+}
 
+.home_page .card-title {
+	font-size: 25px;
+}
 
+.home_page .card {
+	background-color: #009688;
+	padding: 20px;
+	cursor: pointer;
+}
 
+.home_page .card-body {
+	padding: 0px;
+}
 
+.home_page .card-body a {
+	color: white;
+	font-weight: bold;
+}
 
+.sidebar ul li:hover{
+	background: black;
+}
 
-
-
-
-
+.sidebar ul li ul li{
+	background-color: #2f323e;
+}
 
 
 

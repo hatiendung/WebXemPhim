@@ -1,5 +1,7 @@
 package com.javawebspringboot.websitemovie.service.impl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,11 @@ public class UserServiceImpl  implements UserService{
 	@Override
 	public User findByEmail(String email) {
 		return userRepository.findByEmail(email);
+	}
+
+	@Override
+	public List<User> findAllUser() {
+		return userRepository.findAll();
 	}
 
 }

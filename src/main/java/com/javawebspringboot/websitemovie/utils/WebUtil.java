@@ -53,10 +53,10 @@ public class WebUtil implements ApplicationListener<ContextRefreshedEvent> {
 			userRepository.save(admin);
 		}
 		
-		if (userRepository.findByEmail("user@gmail.com") == null) {
+		if (userRepository.findByEmail("user2@gmail.com") == null) {
 			User user = new User();
-			user.setEmail("user@gmail.com");
-			user.setPassword(passwordEncoder.encode("user"));
+			user.setEmail("user2@gmail.com");
+			user.setPassword(passwordEncoder.encode("user2"));
 			List<Role> roles = new ArrayList<>();
 			roles.add(roleRepository.findByRoleName("ROLE_USER"));
 			user.setRoleList(roles);

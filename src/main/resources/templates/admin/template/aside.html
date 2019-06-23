@@ -1,16 +1,13 @@
 <div xmlns:th="http://www.thymeleaf.org" th:fragment="aside"
 	class="navbar-default sidebar" role="navigation">
 	<div class="sidebar-nav slimscrollsidebar">
-		<div class="sidebar-head">
-			<h3>
-				<span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span>
-				<span class="hide-menu"> <a th:href="@{/admin}" style="color: white; font-weight: bold;">Admin</a>
-				</span>
-			</h3>
+		<div style="height: 60px; color: white;"
+			class="d-flex justify-content-center align-items-center">
+			<img th:src="@{/images/logo/motphim.png}" width="160px" />
 		</div>
-		<ul class="nav" id="side-menu">
+		<ul class="nav" id="side-menu" style="border-top: 1px solid #454d55;">
 
-			<li style="padding: 60px 0 0;" id="cl0">
+			<li style="padding: 0px 0 0;" id="cl0">
 				<div>
 					<a th:href="@{/admin}" class="waves-effect"><i
 						class="fa fa-info-circle fa-fw" aria-hidden="true"></i>DASHBOARD</a>
@@ -31,14 +28,16 @@
 							<ul class="nav submenu" id="side-menu">
 								<li style="padding: 0px 0 0;">
 									<div>
-										<a th:href="@{/admin/danh-sach-phim}" class="waves-effect">Xem
-											danh sách phim</a>
+
+										<a th:href="@{/admin/danh-sach-phim}" class="waves-effect">
+											<i class="fa fa-chevron-circle-right"></i> Xem danh sách phim
+										</a>
 									</div>
 								</li>
 								<li style="padding: 0px 0 0;">
 									<div>
-										<a th:href="@{/admin/them-phim-moi}" class="waves-effect">Thêm
-											phim mới</a>
+										<a th:href="@{/admin/them-phim-moi}" class="waves-effect"><i
+											class="fa fa-chevron-circle-right"></i> Thêm phim mới</a>
 									</div>
 								</li>
 
@@ -54,7 +53,7 @@
 				<div id="heading2">
 					<a href="#" class="waves-effect" data-toggle="collapse"
 						data-target="#collapse2" aria-expanded="false"
-						aria-controls="collapse2"> <i class="fa fa-user fa-fw"
+						aria-controls="collapse2"> <i class="fa fa-table fa-fw"
 						aria-hidden="true"></i>QUẢN LÝ SLIDE ẢNH
 					</a>
 					<div id="collapse2" class="collapse" aria-labelledby="#heading2"
@@ -63,16 +62,56 @@
 						<ul class="nav submenu" id="side-menu">
 							<li style="padding: 0px 0 0;">
 								<div>
-									<a th:href="@{/admin/danh-sach-slide}" class="waves-effect">Xem
-										danh sách slide</a>
+									<a th:href="@{/admin/danh-sach-slide}" class="waves-effect"><i
+										class="fa fa-chevron-circle-right"></i> Xem danh sách slide</a>
 								</div>
 							</li>
-							
+
 
 						</ul>
 					</div>
 				</div>
 			</li>
+
+
+
+
+
+			<li style="padding: 0px 0 0;" id="cl7">
+				<div id="heading7">
+					<a href="#" class="waves-effect" data-toggle="collapse"
+						data-target="#collapse7" aria-expanded="false"
+						aria-controls="collapse7"> <i class="fa fa-user fa-fw"
+						aria-hidden="true"></i>QUẢN LÝ USER
+					</a>
+					<div id="collapse7" class="collapse" aria-labelledby="#heading7"
+						data-parent="#cl7">
+
+						<ul class="nav submenu" id="side-menu">
+							<li style="padding: 0px 0 0;">
+								<div>
+									<a th:href="@{/admin/danh-sach-user}" class="waves-effect"><i
+										class="fa fa-chevron-circle-right"></i> Xem danh sách user</a>
+								</div>
+							</li>
+
+
+						</ul>
+					</div>
+				</div>
+			</li>
+
+
+
+
+
+
+
+
+
+
+
+
 
 			<li style="padding: 0px 0 0;" id="cl3">
 				<div id="heading3">
@@ -133,14 +172,15 @@
 						</div>
 					</div>
 			</li>
-			
+
 			<li>
 				<div>
 					<a th:href="@{/user}" class="waves-effect"><i
-						class="fa fa-info-circle fa-fw" aria-hidden="true"></i>TRỞ VỀ WEBSITE</a>
+						class="fa fa-info-circle fa-fw" aria-hidden="true"></i>TRỞ VỀ
+						WEBSITE</a>
 				</div>
 			</li>
-			
+
 
 			<li>
 				<div>

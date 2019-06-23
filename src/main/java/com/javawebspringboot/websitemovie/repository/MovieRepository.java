@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,9 +16,7 @@ import com.javawebspringboot.websitemovie.model.Movie;
 @Transactional
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
-
-	
-	Movie findTop1ByOrderByIdMovieDesc();
+	//Movie findTop1ByOrderByIdMovieDesc();
 
 	Page<Movie> findByCountry(Country country, Pageable pageable);
 
@@ -32,10 +31,15 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 	Movie findByLinkMovie(String linkMovie);
 
 	void deleteByIdMovie(Integer idMovie);
-	
+
 	Movie findByIdMovie(Integer idMovie);
-	
-	
+
 	List<Movie> findTop12ByOrderByViewDesc();
 
+	@Query("SELECT m FROM Movie m where m.nameMovie LIKE %?1%")
+	List<Movie> searchMovie(String keyWord);
+
+	long count();
+	
+	
 }

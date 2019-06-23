@@ -13,24 +13,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.javawebspringboot.websitemovie.model.Country;
-import com.javawebspringboot.websitemovie.model.EpisodeSeries;
+import com.javawebspringboot.websitemovie.model.Episode;
 import com.javawebspringboot.websitemovie.model.Movie;
-import com.javawebspringboot.websitemovie.repository.CountryRepository;
 import com.javawebspringboot.websitemovie.service.CategoryService;
 import com.javawebspringboot.websitemovie.service.CountryService;
-import com.javawebspringboot.websitemovie.service.EpisodeSeriesService;
+import com.javawebspringboot.websitemovie.service.EpisodeService;
 import com.javawebspringboot.websitemovie.service.MovieService;
 import com.javawebspringboot.websitemovie.service.SlideService;
+import com.javawebspringboot.websitemovie.service.TrailerService;
+import com.javawebspringboot.websitemovie.service.UserService;
 
 @Controller
 public class AdminHomeController {
 
 	@Autowired
-	private EpisodeSeriesService episodeSeriesService;
-
-	@Autowired
-	private CountryRepository countryRepository;
+	private EpisodeService episodeService;
 
 	@Autowired
 	private SlideService slideService;
@@ -44,12 +41,16 @@ public class AdminHomeController {
 	@Autowired
 	private CategoryService categoryService;
 
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private TrailerService trailerService;
+
 	@RequestMapping("/admin")
 	public String showHomePage(Model model) {
-
-		// UserDetails userDetails = (UserDetails)
-		// SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
+		model.addAttribute("totalMovie", movieService.countMovie());
+		model.addAttribute("totalEpisode", episodeService.countEpisode());
 		return "admin/home";
 	}
 
@@ -96,23 +97,8 @@ public class AdminHomeController {
 		return "redirect:/admin/danh-sach-slide";
 	}
 
-	@RequestMapping("/admin/country/{idCountry}")
-	public String deleteCountry(@PathVariable(name = "idCountry") Integer idCountry) {
-		Country country = countryRepository.findByIdCountry(idCountry);
-		List<Movie> movieList = movieService.findByCountry(country);
-		if (movieList != null) {
-			// thong ba
-
-		} else {
-			// xoa binh thuong
-		}
-
-		return "";
-	}
-
 	@RequestMapping("/admin/phim/{linkMovie}")
 	public String movieDescriptionEpisode(Model model, @PathVariable(name = "linkMovie") String linkMovie) {
-
 		Movie movie = movieService.findByLinkMovie(linkMovie);
 		if (movie.getEpisodeSeriesList().size() > 0) {
 			// co tap phim
@@ -126,21 +112,52 @@ public class AdminHomeController {
 
 	@RequestMapping("/admin/xem-phim/{linkEpisode}")
 	public String playMovie(Model model, @PathVariable(name = "linkEpisode") String linkEpisode) {
-		EpisodeSeries episode = episodeSeriesService.findByLinkEpisode(linkEpisode);
+		Episode episode = episodeService.findByLinkEpisode(linkEpisode);
 
 		// xem 1 bo phim
 		Movie movie = episode.getMovie();
+		movieService.sortEpisode(movie);
 		model.addAttribute("movie", movie);
 		model.addAttribute("episode", episode);
 		return "admin/play_descriptionMovie";
 	}
 
 	@RequestMapping(value = "/admin/phim/{linkMovie}/them-tap-phim-moi", method = RequestMethod.POST)
-	@ResponseBody
-	public String addEpisode(@RequestParam(name = "videoEpisode") MultipartFile multipartFile,
+	public String addEpisode(@RequestParam(name = "videoEpisode") MultipartFile videoEpisode,
 			@PathVariable(name = "linkMovie") String linkMovie) {
-		episodeSeriesService.addNewEpisode(linkMovie, multipartFile);
-		return "redirect:/admin/phim{linkMovie}";
+		episodeService.addNewEpisode(linkMovie, videoEpisode);
+		return "redirect:/admin/phim/{linkMovie}";
+	}
+
+	@RequestMapping("/admin/danh-sach-user")
+	public String listUser(Model model) {
+		model.addAttribute("listUser", userService.findAllUser());
+		return "admin/listUser";
+	}
+
+/////////////////////////////////////////////////////////////////////////////
+	@RequestMapping("/admin/update/{linkMovie}")
+	@ResponseBody
+	public String updateMovie(@PathVariable(name = "linkMovie") String linkMovie) {
+		return "linkMovie " + linkMovie;
+	}
+
+	@RequestMapping("/admin/delete-episode/{linkEpisode}")
+	public String deleteEpisode(@PathVariable(name = "linkEpisode") String linkEpisode) {
+
+		Episode episode = episodeService.findByLinkEpisode(linkEpisode);
+		String linkMovie = episode.getMovie().getLinkMovie();
+
+		episodeService.deleteEpisode(linkEpisode);
+
+		return "redirect:/admin/phim/" + linkMovie;
+	}
+
+	@RequestMapping("/admin/trailer/{linkMovie}/them-trailer-phim")
+	public String addNewTrailer(Model model, @PathVariable(name = "linkMovie") String linkMovie,
+			@RequestParam(name = "videoTrailer") MultipartFile videoTrailer) {
+		trailerService.addNewTrailer(linkMovie, videoTrailer);
+		return "redirect:/admin/phim/{linkMovie}";
 	}
 
 }

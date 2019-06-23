@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -83,8 +82,11 @@ public class Movie implements Serializable {
 	@JoinTable(name = "movie_actor", joinColumns = @JoinColumn(name = "id_movie", referencedColumnName = "id_movie"), inverseJoinColumns = @JoinColumn(name = "id_actor", referencedColumnName = "id_actor"))
 	private List<Actor> actorList;
 
-	@OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<EpisodeSeries> episodeSeriesList;
+	@OneToMany(mappedBy = "movie")
+	private List<Episode> episodeSeriesList;
+
+	@OneToMany(mappedBy = "movie")
+	private List<Trailer> trailerList;
 
 	@OneToOne(mappedBy = "movie", cascade = CascadeType.ALL)
 	private Slide slide;
@@ -102,7 +104,8 @@ public class Movie implements Serializable {
 	public Movie(String nameMovie, String nameEnglish, Integer status, String content, String linkMovie,
 			int numberEpisodeMovie, LocalDateTime datetimePost, String language, Integer view, int yearProduce,
 			Director director, Country country, User userPost, List<Category> categoryList, List<Actor> actorList,
-			List<EpisodeSeries> episodeSeriesList, Slide slide, MultipartFile avatar, MultipartFile slideImg) {
+			List<Episode> episodeSeriesList, List<Trailer> trailerList, Slide slide, MultipartFile avatar,
+			MultipartFile slideImg) {
 		super();
 		this.nameMovie = nameMovie;
 		this.nameEnglish = nameEnglish;
@@ -120,16 +123,25 @@ public class Movie implements Serializable {
 		this.categoryList = categoryList;
 		this.actorList = actorList;
 		this.episodeSeriesList = episodeSeriesList;
+		this.trailerList = trailerList;
 		this.slide = slide;
 		this.avatar = avatar;
 		this.slideImg = slideImg;
 	}
 
-	public List<EpisodeSeries> getEpisodeSeriesList() {
+	public List<Trailer> getTrailerList() {
+		return trailerList;
+	}
+
+	public void setTrailerList(List<Trailer> trailerList) {
+		this.trailerList = trailerList;
+	}
+
+	public List<Episode> getEpisodeSeriesList() {
 		return episodeSeriesList;
 	}
 
-	public void setEpisodeSeriesList(List<EpisodeSeries> episodeSeriesList) {
+	public void setEpisodeSeriesList(List<Episode> episodeSeriesList) {
 		this.episodeSeriesList = episodeSeriesList;
 	}
 
