@@ -17,7 +17,7 @@
 					class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						THỂ LOẠI</a>
-					<div class="dropdown-menu dropdown-menu-right"
+					<div class="dropdown-menu dropdown-menu-left"
 						aria-labelledby="navbarDropdownBlog">
 						<a th:each="category : ${categoryList}" class="dropdown-item"
 							th:href="@{/the-loai/}+${category.codeCategory}"
@@ -28,7 +28,7 @@
 					class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						QUỐC GIA </a>
-					<div class="dropdown-menu dropdown-menu-right"
+					<div class="dropdown-menu dropdown-menu-left"
 						aria-labelledby="navbarDropdownBlog">
 						<a th:each="country : ${countryList}" class="dropdown-item"
 							th:href="@{/quoc-gia/} +${country.codeCountry}"
@@ -42,7 +42,7 @@
 					class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						PHIM MỚI</a>
-					<div class="dropdown-menu dropdown-menu-right nam_sx"
+					<div class="dropdown-menu dropdown-menu-left nam_sx"
 						aria-labelledby="navbarDropdownBlog"></div></li>
 
 
@@ -83,7 +83,7 @@
 
 
 									<div class="form-group d-flex justify-content-center">
-										<button type="submit" class="btn btn-primary w-100">Đăng
+										<button type="submit" class="btn btn-primary btn-lg w-100">Đăng
 											nhập</button>
 									</div>
 
@@ -143,7 +143,7 @@
 
 
 									<div class="form-group d-flex justify-content-center">
-										<button type="submit" class="btn btn-primary w-100">Đăng
+										<button type="submit" class="btn btn-primary btn-lg w-100">Đăng
 											ký tài khoản</button>
 									</div>
 
@@ -183,7 +183,7 @@
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
 					title="Đăng nhập/Đăng xuất"><i class="fas fa-sign-in-alt"></i>
 				</a>
-					<div class="dropdown-menu dropdown-menu-right"
+					<div class="dropdown-menu dropdown-menu-left"
 						aria-labelledby="navbarDropdownBlog">
 						<a th:if="${#request.isUserInRole('ADMIN')}" class="dropdown-item"
 							th:href="@{/admin}">Admin</a> <a

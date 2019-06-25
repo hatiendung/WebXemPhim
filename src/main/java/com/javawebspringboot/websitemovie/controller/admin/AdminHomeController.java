@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.javawebspringboot.websitemovie.model.Episode;
 import com.javawebspringboot.websitemovie.model.Movie;
+import com.javawebspringboot.websitemovie.model.Slide;
 import com.javawebspringboot.websitemovie.service.CategoryService;
 import com.javawebspringboot.websitemovie.service.CountryService;
 import com.javawebspringboot.websitemovie.service.EpisodeService;
@@ -43,7 +43,7 @@ public class AdminHomeController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private TrailerService trailerService;
 
@@ -135,11 +135,20 @@ public class AdminHomeController {
 		return "admin/listUser";
 	}
 
-/////////////////////////////////////////////////////////////////////////////
 	@RequestMapping("/admin/update/{linkMovie}")
-	@ResponseBody
-	public String updateMovie(@PathVariable(name = "linkMovie") String linkMovie) {
-		return "linkMovie " + linkMovie;
+	public String updateMovie(@PathVariable(name = "linkMovie") String linkMovie, Model model) {
+		Movie movieUpdate = movieService.findByLinkMovie(linkMovie);
+		model.addAttribute("movieUpdate", movieUpdate);
+		model.addAttribute("countryList", countryService.findAllCountry());
+		model.addAttribute("categorys", categoryService.findAllCategory());
+		model.addAttribute("categoryList", movieUpdate.getCategoryList());
+		Slide slide = slideService.findByMovie(movieUpdate);
+		String linkSlide = "";
+		if (slide != null) {
+			linkSlide = slide.getLinkImage();
+		}
+		model.addAttribute("linkSlide", linkSlide);
+		return "admin/updateMovie";
 	}
 
 	@RequestMapping("/admin/delete-episode/{linkEpisode}")
@@ -158,6 +167,13 @@ public class AdminHomeController {
 			@RequestParam(name = "videoTrailer") MultipartFile videoTrailer) {
 		trailerService.addNewTrailer(linkMovie, videoTrailer);
 		return "redirect:/admin/phim/{linkMovie}";
+	}
+
+	@RequestMapping("/admin/tim-kiem-phim/")
+	public String searchMovie(Model model, @RequestParam(name = "keyWord") String keyWord) {
+		List<Movie> movieList = movieService.searchMovie(keyWord);
+		model.addAttribute("movieList", movieList);
+		return "admin/searchMovie";
 	}
 
 }

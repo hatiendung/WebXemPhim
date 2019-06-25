@@ -22,6 +22,7 @@
 									<th>STT</th>
 									<th>Email</th>
 									<th>Vai trò</th>
+									<th>Ngày tạo</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -39,6 +40,8 @@
 											<span th:if="${role.roleName == 'ROLE_USER'}" class="mr-3">USER</span>
 										</span>
 									</td>
+									
+									<td th:text="${#temporals.format(user.datetimeCreatedAccount, 'dd-MM-yyyy HH:mm:ss')}"></td>
 									
 
 								</tr>

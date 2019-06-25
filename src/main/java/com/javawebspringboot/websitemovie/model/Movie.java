@@ -35,8 +35,7 @@ public class Movie implements Serializable {
 	@Column(name = "name_movie")
 	private String nameMovie;
 
-	@Column(name = "name_english")
-	private String nameEnglish;
+	
 
 	@Column(name = "status")
 	private Integer status;
@@ -101,14 +100,13 @@ public class Movie implements Serializable {
 		super();
 	}
 
-	public Movie(String nameMovie, String nameEnglish, Integer status, String content, String linkMovie,
+	public Movie(String nameMovie,  Integer status, String content, String linkMovie,
 			int numberEpisodeMovie, LocalDateTime datetimePost, String language, Integer view, int yearProduce,
 			Director director, Country country, User userPost, List<Category> categoryList, List<Actor> actorList,
 			List<Episode> episodeSeriesList, List<Trailer> trailerList, Slide slide, MultipartFile avatar,
 			MultipartFile slideImg) {
 		super();
 		this.nameMovie = nameMovie;
-		this.nameEnglish = nameEnglish;
 		this.status = status;
 		this.content = content;
 		this.linkMovie = linkMovie;
@@ -129,6 +127,10 @@ public class Movie implements Serializable {
 		this.slideImg = slideImg;
 	}
 
+	
+	
+	
+	
 	public List<Trailer> getTrailerList() {
 		return trailerList;
 	}
@@ -185,13 +187,7 @@ public class Movie implements Serializable {
 		this.nameMovie = nameMovie;
 	}
 
-	public String getNameEnglish() {
-		return nameEnglish;
-	}
 
-	public void setNameEnglish(String nameEnglish) {
-		this.nameEnglish = nameEnglish;
-	}
 
 	public Integer getStatus() {
 		return status;

@@ -36,7 +36,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
 	List<Movie> findTop12ByOrderByViewDesc();
 
-	@Query("SELECT m FROM Movie m where m.nameMovie LIKE %?1%")
+	@Query("SELECT m FROM Movie m where m.nameMovie LIKE %?1% ORDER BY datetimePost DESC")
 	List<Movie> searchMovie(String keyWord);
 
 	long count();

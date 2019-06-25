@@ -1,6 +1,6 @@
 package com.javawebspringboot.websitemovie.service.impl;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +44,7 @@ public class UserServiceImpl  implements UserService{
 	public boolean registerAccount(String email, String password) {
 		if (userRepository.findByEmail(email) == null) {
 			User userRegister = new User();
-			Date date = new Date();
-			userRegister.setDatetimeCreatedAccount(date);
+			userRegister.setDatetimeCreatedAccount(LocalDateTime.now());
 			userRegister.setEmail(email);
 			userRegister.setPassword(passwordEncoder.encode(password));
 			List<Role> roles = new ArrayList<>();

@@ -47,6 +47,13 @@ public class Actor implements Serializable {
 		this.movieList = movieList;
 	}
 
+	public Actor(int idActor, String nameActor, int idCountry) {
+		super();
+		this.idActor = idActor;
+		this.nameActor = nameActor;
+		this.idCountry = idCountry;
+	}
+
 	public int getIdActor() {
 		return idActor;
 	}

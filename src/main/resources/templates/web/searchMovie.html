@@ -13,7 +13,14 @@
 					<div th:each="movie : ${movieList}" class="col-lg-3 mb-4">
 						<div class="card" style="cursor: pointer;"
 							th:title="${movie.nameMovie}">
-							<div class="card-body">
+							<div class="card-body img_movie">
+							<div class="text_block">
+                                    <p class="mx-1 my-2" th:if="${#lists.size(movie.episodeSeriesList) == 0}" th:text="'Tập 0/' + ${movie.numberEpisodeMovie}">Tập 22 Vietsub
+                                    </p>
+                                    <p class="mx-1 my-2" th:if="${#lists.size(movie.episodeSeriesList) > 0}" th:text="'Tập ' + ${#lists.size(movie.episodeSeriesList)} + '/' + ${movie.numberEpisodeMovie}">Tập 22 Vietsub
+                                    </p>
+
+                                </div>
 								<a th:href="@{/phim/}+${movie.linkMovie}"> <img
 									width="200px" height="284px"
 									th:src="@{/images/movie/}+${movie.LinkMovie}+.jpg"

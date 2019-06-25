@@ -1,7 +1,7 @@
 package com.javawebspringboot.websitemovie.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class User implements Serializable {
 	private String password;
 
 	@Column(name = "datetime_created")
-	private Date datetimeCreatedAccount;
+	private LocalDateTime datetimeCreatedAccount;
 
 	@ManyToMany
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "id_user", referencedColumnName = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "id_role"))
@@ -48,7 +48,7 @@ public class User implements Serializable {
 		super();
 	}
 
-	public User(String email, String password, Date datetimeCreatedAccount, List<Role> roleList,
+	public User(String email, String password, LocalDateTime datetimeCreatedAccount, List<Role> roleList,
 			List<Movie> movieList) {
 		super();
 		this.email = email;
@@ -58,11 +58,11 @@ public class User implements Serializable {
 		this.movieList = movieList;
 	}
 
-	public Date getDatetimeCreatedAccount() {
+	public LocalDateTime getDatetimeCreatedAccount() {
 		return datetimeCreatedAccount;
 	}
 
-	public void setDatetimeCreatedAccount(Date datetimeCreatedAccount) {
+	public void setDatetimeCreatedAccount(LocalDateTime datetimeCreatedAccount) {
 		this.datetimeCreatedAccount = datetimeCreatedAccount;
 	}
 

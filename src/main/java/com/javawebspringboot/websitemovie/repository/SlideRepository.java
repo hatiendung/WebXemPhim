@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.javawebspringboot.websitemovie.model.Movie;
 import com.javawebspringboot.websitemovie.model.Slide;
 
 @Repository
@@ -18,4 +19,6 @@ public interface SlideRepository extends JpaRepository<Slide, Integer> {
 
 	
 	void deleteByIdSlide(Integer idSlide);
+
+	Slide findByMovie(Movie movieUpdate);
 }

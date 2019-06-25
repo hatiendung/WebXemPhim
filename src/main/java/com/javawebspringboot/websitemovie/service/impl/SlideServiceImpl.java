@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.javawebspringboot.websitemovie.model.Movie;
 import com.javawebspringboot.websitemovie.model.Slide;
 import com.javawebspringboot.websitemovie.repository.SlideRepository;
 import com.javawebspringboot.websitemovie.service.SlideService;
@@ -48,6 +49,11 @@ public class SlideServiceImpl implements SlideService {
 	public void deleteSlideByIdSlide(Integer idSlide) {
 		slideRepository.deleteByIdSlide(idSlide);
 
+	}
+
+	@Override
+	public Slide findByMovie(Movie movieUpdate) {
+		return slideRepository.findByMovie(movieUpdate);
 	}
 
 }

@@ -4,6 +4,8 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,9 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.javawebspringboot.websitemovie.model.Actor;
+import com.javawebspringboot.websitemovie.service.ActorService;
 import com.javawebspringboot.websitemovie.service.SlideService;
+import com.javawebspringboot.websitemovie.utils.CustomActor;
 
 @Controller
 public class WebAPI {
@@ -22,12 +28,14 @@ public class WebAPI {
 	@Autowired
 	private SlideService slideService;
 
+	@Autowired
+	private ActorService actorService;
+
 	@RequestMapping(value = "/api/ajax/idSlide/{idSlide}", method = RequestMethod.GET)
 	@ResponseBody
 	public void ajax(@PathVariable(name = "idSlide") Integer idSlide) {
 
 		slideService.updateSlideByStatus(idSlide);
-
 	}
 
 	@RequestMapping(value = "/api/download-movie/{linkEpisode}", method = RequestMethod.GET)
@@ -48,6 +56,17 @@ public class WebAPI {
 		outStream.flush();
 		inStrem.close();
 
+	}
+
+	@RequestMapping("/api/search-actor")
+	public @ResponseBody List<CustomActor> searchrActor(@RequestParam String keyWord) {
+		List<Actor> listActor = actorService.searchActor(keyWord);
+		List<CustomActor> listCustomActor = new ArrayList<>();
+		for (Actor actor : listActor) {
+			CustomActor customActor = new CustomActor(actor.getIdActor(), actor.getNameActor());
+			listCustomActor.add(customActor);
+		}
+		return listCustomActor;
 	}
 
 }

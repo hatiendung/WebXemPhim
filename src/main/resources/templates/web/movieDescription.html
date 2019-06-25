@@ -12,7 +12,9 @@
             <div class="col col-md-9 my-3">
                 <div class="row">
                     <div class="col col-md-5">
-                        <div class="card" style="border: none; background-color: black; width: 324.26px; cursor: pointer;" th:title="${movie.nameMovie}">
+                        <div class="card"
+                            style="border: none; background-color: black; width: 324.26px; cursor: pointer;"
+                            th:title="${movie.nameMovie}">
                             <div class="card-body">
                                 <a th:if="${#lists.size(movie.episodeSeriesList) == 0}" class="disabled"> <img width="324.26px" th:src="@{/images/movie/}+${movie.linkMovie}+.jpg" th:alt="${movie.nameMovie}">
                                 </a>
@@ -43,9 +45,7 @@
                     <div class="col col-md-7 mo_ta_phim">
                         <h4 th:text="${#strings.toUpperCase(movie.nameMovie)} "></h4>
 
-                        <p style="margin-left: 0px;" th:text="${movie.nameEnglish}">name english
-                        </p>
-
+                        
                         <div class="card border-0 border-white">
                             <div class="card-body trang_thai">
                                 <p>
@@ -145,8 +145,8 @@
 <script type="text/javascript">
     $(document)
         .ready(
-            function() {
-                $(".null_movie").click(function() {
+            function () {
+                $(".null_movie").click(function () {
                     $("#row_kq").addClass("my-3");
                     $("#kq")
                         .append(
@@ -156,7 +156,7 @@
 
                 });
 
-                $(".null_trailer").click(function() {
+                $(".null_trailer").click(function () {
                     $("#row_kq_null_trailer").addClass("my-3");
                     $("#kq_null_trailer")
                         .append(
